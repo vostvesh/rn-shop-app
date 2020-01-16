@@ -1,9 +1,9 @@
 import React from 'react';
-import { View } from 'react-native';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 
 import productsReducer from './store/reducers/products';
+import ShopNavigator from './navigation/ShopNavigator';
 
 const store = createStore(combineReducers({
   products: productsReducer
@@ -12,7 +12,7 @@ const store = createStore(combineReducers({
 export default function App() {
   return (
     <Provider store={store}>
-      <View>...</View>
+      <ShopNavigator />
     </Provider>
   );
 }
