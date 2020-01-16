@@ -1,11 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, FlatList } from 'react-native';
 
 const ProductDetailScreen = () => {
   return (
-    <View style={styles.screen}>
-      <Text>ProductDetailScreen</Text>
-    </View>
+    <FlatList />
   );
 };
 
