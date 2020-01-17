@@ -1,5 +1,12 @@
-import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import React from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  Image,
+  Button
+} from "react-native";
 
 const ProductDetailScreen = () => {
   return (
@@ -9,8 +16,6 @@ const ProductDetailScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
-
-});
+const styles = StyleSheet.create({});
 
 export default ProductDetailScreen;
