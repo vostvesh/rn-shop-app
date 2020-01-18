@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
-const CartScreen = () => {
+const CartScreen = props => {
   return (
     <View style={styles.screen}>
       <Text>CartScreen</Text>
