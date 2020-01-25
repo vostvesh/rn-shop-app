@@ -1,10 +1,14 @@
 import PRODUCTS from '../../data/dummy-data';
-import { DELETE_PRODUCT, CREATE_PRODUCT, UPDATE_PRODUCT } from '../actions/products';
+import {
+  DELETE_PRODUCT,
+  CREATE_PRODUCT,
+  UPDATE_PRODUCT
+} from '../actions/products';
 import Product from '../../models/product';
 
 const initialState = {
   availableProducts: PRODUCTS,
-  userProducts: PRODUCTS.filter(product => product.ownerId === 'u1')
+  userProducts: PRODUCTS.filter(prod => prod.ownerId === 'u1')
 };
 
 export default (state = initialState, action) => {
@@ -46,18 +50,17 @@ export default (state = initialState, action) => {
         ...state,
         availableProducts: updatedAvailableProducts,
         userProducts: updatedUserProducts
-      }
+      };
     case DELETE_PRODUCT:
       return {
         ...state,
         userProducts: state.userProducts.filter(
-          product => product.id !== action.payload
+          product => product.id !== action.pid
         ),
         availableProducts: state.availableProducts.filter(
-          product => product.id !== action.payload
+          product => product.id !== action.pid
         )
       };
-    default:
-      return state;
   }
+  return state;
 };

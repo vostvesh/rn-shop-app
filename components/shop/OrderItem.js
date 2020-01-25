@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import colors from '../../constants/colors';
+
 import CartItem from './CartItem';
+import Colors from '../../constants/Colors';
 import Card from '../UI/Card';
 
 const OrderItem = props => {
@@ -14,8 +15,8 @@ const OrderItem = props => {
         <Text style={styles.date}>{props.date}</Text>
       </View>
       <Button
-        color={colors.primary}
-        title={showDetails ? "Hide Details" : "Show Details"}
+        color={Colors.primary}
+        title={showDetails ? 'Hide Details' : 'Show Details'}
         onPress={() => {
           setShowDetails(prevState => !prevState);
         }}
@@ -50,12 +51,12 @@ const styles = StyleSheet.create({
     marginBottom: 15
   },
   totalAmount: {
-    // fontFamily: 'open-sans-bold',
+    fontFamily: 'open-sans-bold',
     fontSize: 16
   },
   date: {
-    // fontFamily: 'open-sans',
     fontSize: 16,
+    fontFamily: 'open-sans',
     color: '#888'
   },
   detailItems: {

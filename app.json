@@ -21,7 +21,9 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "**/*"
+      "**/*",
+      "assets/fonts/OpenSans-Bold.ttf",
+      "assets/fonts/OpenSans-Regular.ttf"
     ],
     "ios": {
       "supportsTablet": true

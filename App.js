@@ -17,25 +17,26 @@ const store = createStore(
   })
 );
 
-const fetchFonts = () => {
-  return Font.loadAsync({
-    'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
-    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
-  });
-};
-
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
 
-  if (!fontLoaded) {
-    <AppLoading
-      startAsync={fetchFonts}
-      onFinish={() => {
-        setFontLoaded(true);
-      }}
-      onError={(e) => {console.warn(e)}}
-    />;
-  }
+  const fetchFonts = () => {
+    return Font.loadAsync({
+      'open-sans': require('./assets/fonts/openSansRegular.ttf'),
+      'open-sans-bold': require('./assets/fonts/openSansBold.ttf')
+    });
+  };
+
+  useEffect(() => {
+    fetchFonts().then(_ => setFontLoaded(true)).catch(e => console.info(e))
+    // if (!fontLoaded) {
+      // <AppLoading
+      //   startAsync={fetchFonts}
+      //   onFinish={setFontLoaded(true)}
+      //   onError={(e) => {console.warn(e)}}
+      // />;
+    // }
+  }, [])
 
   return (
     <Provider store={store}>
