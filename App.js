@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
+import reduxThunk from 'redux-thunk';
 
 import ShopNavigator from "./navigation/ShopNavigator";
 import productsReducer from "./store/reducers/products";
@@ -14,7 +15,8 @@ const store = createStore(
     products: productsReducer,
     cart: cartReducer,
     orders: ordersReducer
-  })
+  }),
+  applyMiddleware(reduxThunk)
 );
 
 export default function App() {
