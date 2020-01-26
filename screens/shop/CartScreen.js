@@ -34,7 +34,6 @@ const CartScreen = props => {
       a.productId > b.productId ? 1 : -1
     );
   });
-
   const dispatch = useDispatch();
 
   const sendOrderHandler = async () => {

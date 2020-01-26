@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -29,8 +29,8 @@ const ProductsOverviewScreen = props => {
     setIsRefreshing(true);
     try {
       await dispatch(productsActions.fetchProducts());
-    } catch (error) {
-      setError(error.message);
+    } catch (err) {
+      setError(err.message);
     }
     setIsRefreshing(false);
   }, [dispatch, setIsLoading, setError]);
@@ -40,6 +40,7 @@ const ProductsOverviewScreen = props => {
       'willFocus',
       loadProducts
     );
+
     return () => {
       willFocusSub.remove();
     };
@@ -47,7 +48,9 @@ const ProductsOverviewScreen = props => {
 
   useEffect(() => {
     setIsLoading(true);
-    loadProducts().then(() => setIsLoading(false));
+    loadProducts().then(() => {
+      setIsLoading(false);
+    });
   }, [dispatch, loadProducts]);
 
   const selectItemHandler = (id, title) => {
@@ -60,7 +63,7 @@ const ProductsOverviewScreen = props => {
   if (error) {
     return (
       <View style={styles.centered}>
-        <Text>An error ocurred {error}</Text>
+        <Text>An error occurred!</Text>
         <Button
           title="Try again"
           onPress={loadProducts}
@@ -81,7 +84,7 @@ const ProductsOverviewScreen = props => {
   if (!isLoading && products.length === 0) {
     return (
       <View style={styles.centered}>
-        <Text>No products found.</Text>
+        <Text>No products found. Maybe start adding some!</Text>
       </View>
     );
   }

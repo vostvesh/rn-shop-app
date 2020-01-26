@@ -18,26 +18,24 @@ import Colors from '../../constants/Colors';
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
-const fromReducer = (state, action) => {
+const formReducer = (state, action) => {
   if (action.type === FORM_INPUT_UPDATE) {
     const updatedValues = {
       ...state.inputValues,
-      [action.inputName]: action.value
+      [action.input]: action.value
     };
     const updatedValidities = {
       ...state.inputValidities,
-      [action.inputName]: action.isValid
+      [action.input]: action.isValid
     };
-    let formIsValid = true;
+    let updatedFormIsValid = true;
     for (const key in updatedValidities) {
-      formIsValid = formIsValid && updatedValidities[key];
-      // formIsValid = updatedValidities[key];
+      updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
     }
     return {
-      ...state,
-      inputValues: updatedValues,
+      formIsValid: updatedFormIsValid,
       inputValidities: updatedValidities,
-      formIsValid
+      inputValues: updatedValues
     };
   }
   return state;
@@ -53,7 +51,7 @@ const EditProductScreen = props => {
   );
   const dispatch = useDispatch();
 
-  const [formState, dispatchFormState] = useReducer(fromReducer, {
+  const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
       title: editedProduct ? editedProduct.title : '',
       imageUrl: editedProduct ? editedProduct.imageUrl : '',
@@ -71,7 +69,7 @@ const EditProductScreen = props => {
 
   useEffect(() => {
     if (error) {
-      Alert.alert('And error ocurred', error, [{text: 'Okay'}]);
+      Alert.alert('An error occurred!', error, [{ text: 'Okay' }]);
     }
   }, [error]);
 
@@ -84,22 +82,33 @@ const EditProductScreen = props => {
     }
     setError(null);
     setIsLoading(true);
-    const { title, description, imageUrl, price } = formState.inputValues;
     try {
       if (editedProduct) {
         await dispatch(
-          productsActions.updateProduct(prodId, title, description, imageUrl)
+          productsActions.updateProduct(
+            prodId,
+            formState.inputValues.title,
+            formState.inputValues.description,
+            formState.inputValues.imageUrl
+          )
         );
       } else {
         await dispatch(
-          productsActions.createProduct(title, description, imageUrl, +price)
+          productsActions.createProduct(
+            formState.inputValues.title,
+            formState.inputValues.description,
+            formState.inputValues.imageUrl,
+            +formState.inputValues.price
+          )
         );
       }
       props.navigation.goBack();
-    } catch (error) {
-      setError(error.message);
+    } catch (err) {
+      setError(err.message);
     }
+
     setIsLoading(false);
+    
   }, [dispatch, prodId, formState]);
 
   useEffect(() => {
@@ -110,14 +119,14 @@ const EditProductScreen = props => {
     (inputIdentifier, inputValue, inputValidity) => {
       dispatchFormState({
         type: FORM_INPUT_UPDATE,
-        inputName: inputIdentifier,
         value: inputValue,
-        isValid: inputValidity
+        isValid: inputValidity,
+        input: inputIdentifier
       });
     },
     [dispatchFormState]
   );
-  
+
   if (isLoading) {
     return (
       <View style={styles.centered}>
@@ -128,9 +137,9 @@ const EditProductScreen = props => {
 
   return (
     <KeyboardAvoidingView
+      style={{ flex: 1 }}
       behavior="padding"
       keyboardVerticalOffset={100}
-      style={{ flex: 1 }}
     >
       <ScrollView>
         <View style={styles.form}>
